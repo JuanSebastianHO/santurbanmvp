@@ -1,0 +1,104 @@
+/**
+ * @file css/responsive.css
+ * @description Diseño Mobile-First pensado para uso cómodo en teléfonos de campo
+ * y visualización panorámica en computadores.
+ */
+
+.field-workspace-grid,
+.admin-workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+.filter-bar-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+}
+
+.action-button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+/* Tabletas */
+@media (min-width: 768px) {
+    .filter-bar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Escritorio */
+@media (min-width: 1024px) {
+    .field-workspace-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: start;
+    }
+
+    .admin-workspace-grid {
+        grid-template-columns: 1.35fr 0.65fr;
+        align-items: start;
+    }
+
+    .filter-bar-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Ajustes ergonómicos para teléfonos móviles */
+@media (max-width: 640px) {
+    .app-topbar {
+        padding: 0.75rem 0.95rem;
+    }
+
+    .brand-title {
+        font-size: 0.98rem;
+    }
+
+    .brand-subtitle {
+        display: none; /* Despeja la barra superior en pantallas pequeñas */
+    }
+
+    .app-main-container {
+        padding: 0.85rem 0.75rem 2.5rem;
+    }
+
+    .panel-card {
+        padding: 1.15rem 1rem;
+        border-radius: 24px;
+    }
+
+    .telemetry-box {
+        padding: 1rem;
+        border-radius: 20px;
+    }
+
+    /* En móvil, 2 columnas para las categorías y telemetría ahorran mucho scroll vertical */
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.55rem;
+    }
+
+    .telemetry-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-button-group .btn {
+        width: 100%;
+    }
+
+    .record-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .record-item .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,182 @@
+/**
+ * @file css/styles.css
+ * @description Diseño orgánico, redondeado y de alta eficiencia energética (OLED Eco-Dark)
+ * pensado para lectura cómoda y uso móvil en el Páramo de Santurbán.
+ */
+
+:root {
+    /* =========================================================================
+       PALETA ECO-OLED (Eficiencia Energética + Descanso Visual)
+       Fondos carbón/piedra casi negros para apagar píxeles en pantallas OLED
+       ========================================================================= */
+    --bg-primary: #080b09;          /* Carbón profundo (Ahorro energético máximo OLED) */
+    --bg-secondary: #111613;        /* Piedra húmeda de páramo (Tarjetas principales) */
+    --bg-surface: #18201c;          /* Superficie elevada suave */
+    --bg-input: #141b17;            /* Fondo de campos táctiles */
+
+    /* Textos cálidos que evitan la fatiga visual y el deslumbramiento */
+    --text-primary: #f3f1eb;        /* Blanco hueso cálido */
+    --text-secondary: #a5b0a9;      /* Gris niebla suave */
+    --text-muted: #6e7a73;          /* Gris liquen */
+
+    /* Acentos naturales suaves (No neón, amigables a la vista) */
+    --accent-moss: #76b596;         /* Salvia / Frailejón suave */
+    --accent-moss-hover: #8cc7aa;
+    --accent-forest: #1e382b;       /* Verde bosque sereno */
+    --accent-earth: #d9a773;        /* Ocre tierra cálido */
+
+    /* Estados semánticos amigables */
+    --status-online: #68b088;
+    --status-offline: #e2876b;
+    --status-warning: #eab66a;
+    --status-danger: #e56b6f;
+
+    /* Bordes sutiles (sin líneas duras) */
+    --border-color: rgba(243, 241, 235, 0.08);
+    --border-strong: rgba(243, 241, 235, 0.15);
+    --border-focus: #76b596;
+
+    /* =========================================================================
+       CONTORNOS REDONDEADOS Y ORGÁNICOS (Mobile-Friendly)
+       ========================================================================= */
+    --radius-sm: 14px;
+    --radius-md: 18px;
+    --radius-lg: 26px;
+    --radius-pill: 9999px;
+
+    /* Sombras difuminadas sin gasto lumínico */
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.25);
+
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+    /* Altura táctil cómoda para usar con una mano en celulares */
+    --touch-target-min: 52px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================================
+   BARRA SUPERIOR AMIGABLE Y REDONDEADA
+   ========================================================================= */
+.app-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(12, 16, 14, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.brand-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #1f3a2d, #14261d);
+    color: var(--accent-moss);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    border: 1px solid rgba(118, 181, 150, 0.28);
+    box-shadow: var(--shadow-soft);
+}
+
+.brand-title {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+.brand-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.topbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+/* =========================================================================
+   CONTENEDOR PRINCIPAL CON RESPIRACIÓN VISUAL
+   ========================================================================= */
+.app-main-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 3rem;
+}
+
+a {
+    color: var(--accent-moss);
+    text-decoration: none;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+}
+
+/* Atenuación energética para el mapa en modo oscuro para no deslumbrar en campo */
+.leaflet-tile-pane {
+    filter: brightness(0.88) contrast(1.04) saturate(0.85);
+}
+
+.leaflet-container {
+    font-family: var(--font-sans) !important;
+    background-color: #0d1310 !important;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 18px !important;
+    padding: 4px !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35) !important;
+}

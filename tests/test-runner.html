@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suite de Pruebas — Monitoreo Páramo de Santurbán</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+
+    <style>
+        .test-suite-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        .test-pass {
+            border-left: 5px solid var(--status-online);
+            background-color: rgba(64, 145, 108, 0.12);
+        }
+        .test-fail {
+            border-left: 5px solid var(--status-danger);
+            background-color: rgba(230, 57, 70, 0.16);
+        }
+        #test-map-sandbox {
+            width: 300px;
+            height: 200px;
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+        }
+    </style>
+</head>
+<body>
+    <main class="app-main-container">
+        <section class="panel-card">
+            <div class="test-suite-header">
+                <div>
+                    <h1 class="panel-title">Ejecutor de Pruebas Unitarias y de Integración</h1>
+                    <p class="form-hint">
+                        Verifica Validación, Ruta Simulada, Compresión Fotográfica, IndexedDB, Sincronización Idempotente, Roles, Mapa Leaflet y Exportación SIG (CSV/GeoJSON).
+                    </p>
+                </div>
+                <button id="run-all-tests-btn" type="button" class="btn btn-primary">
+                    Ejecutar Todas las Pruebas Nuevamente
+                </button>
+            </div>
+
+            <div id="test-summary-kpis" class="kpi-grid"></div>
+            <div id="test-results-list" class="records-list"></div>
+        </section>
+
+        <!-- Sandbox oculto para pruebas reales de Leaflet + Heatmap -->
+        <div id="test-map-sandbox"></div>
+    </main>
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+    <script type="module">
+        import { runUnitTests } from './unit.test.js';
+        import { runIntegrationTests } from './integration.test.js';
+        import { clearElement, createElement } from '../js/utils/dom.js';
+
+        const summaryEl = document.getElementById('test-summary-kpis');
+        const listEl = document.getElementById('test-results-list');
+        const runBtn = document.getElementById('run-all-tests-btn');
+
+        async function executeSuite() {
+            runBtn.disabled = true;
+            runBtn.textContent = 'Ejecutando pruebas...';
+            clearElement(summaryEl);
+            clearElement(listEl);
+
+            const unitResults = await runUnitTests();
+            const integrationResults = await runIntegrationTests();
+            const allResults = [...unitResults, ...integrationResults];
+
+            const passed = allResults.filter((r) => r.passed).length;
+            const failed = allResults.length - passed;
+
+            const kpis = [
+                { label: 'Total Pruebas Ejecutadas', value: allResults.length },
+                { label: 'Pruebas Exitosas (PASS)', value: passed },
+                { label: 'Pruebas Fallidas (FAIL)', value: failed }
+            ];
+
+            for (const k of kpis) {
+                summaryEl.appendChild(
+                    createElement('div', {
+                        className: 'kpi-card',
+                        children: [
+                            createElement('div', { className: 'kpi-value', text: String(k.value) }),
+                            createElement('div', { className: 'kpi-label', text: k.label })
+                        ]
+                    })
+                );
+            }
+
+            for (const res of allResults) {
+                listEl.appendChild(
+                    createElement('div', {
+                        className: `record-item ${res.passed ? 'test-pass' : 'test-fail'}`,
+                        children: [
+                            createElement('div', {
+                                children: [
+                                    createElement('strong', {
+                                        text: `${res.passed ? '✔ PASS' : '✖ FAIL'} — [${res.suite}] ${res.name}`
+                                    }),
+                                    res.details
+                                        ? createElement('div', {
+                                              className: 'form-hint',
+                                              text: res.details
+                                          })
+                                        : null
+                                ].filter(Boolean)
+                            }),
+                            createElement('span', {
+                                className: 'role-badge',
+                                text: `${res.durationMs} ms`
+                            })
+                        ]
+                    })
+                );
+            }
+
+            runBtn.disabled = false;
+            runBtn.textContent = 'Ejecutar Todas las Pruebas Nuevamente';
+        }
+
+        runBtn.addEventListener('click', executeSuite);
+        executeSuite();
+    </script>
+</body>
+</html>

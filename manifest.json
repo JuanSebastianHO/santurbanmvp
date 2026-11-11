@@ -1,0 +1,21 @@
+{
+    "name": "SanturBio — Monitoreo Páramo de Santurbán",
+    "short_name": "SanturBio",
+    "description": "Aplicación PWA Offline-First para guardabosques, investigadores y administradores ambientales del Páramo de Santurbán.",
+    "lang": "es-CO",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#080b09",
+    "theme_color": "#080b09",
+    "categories": ["science", "education", "utilities", "productivity"],
+    "icons": [
+        {
+            "src": "./assets/icons/app-icon.svg",
+            "sizes": "192x192 512x512",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}

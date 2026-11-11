@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+    <defs>
+        <!-- Degradado principal Montaña (Azul profundo a Verde hoja) -->
+        <linearGradient id="santurbioMtn" x1="10%" y1="80%" x2="90%" y2="20%">
+            <stop offset="0%" stop-color="#0d5c9e" />
+            <stop offset="48%" stop-color="#1ca39c" />
+            <stop offset="100%" stop-color="#80c342" />
+        </linearGradient>
+
+        <!-- Degradado Cumbre Izquierda Iluminada -->
+        <linearGradient id="santurbioPeakLight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6cc4e8" />
+            <stop offset="100%" stop-color="#1982c4" />
+        </linearGradient>
+
+        <!-- Degradado Ondas de Agua -->
+        <linearGradient id="santurbioWave1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0a5896" />
+            <stop offset="50%" stop-color="#1d91c8" />
+            <stop offset="100%" stop-color="#4ec3e0" />
+        </linearGradient>
+
+        <linearGradient id="santurbioWave2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#084b82" />
+            <stop offset="60%" stop-color="#137dc5" />
+            <stop offset="100%" stop-color="#2bb0d9" />
+        </linearGradient>
+    </defs>
+
+    <!-- Fondo circular suave para contraste en modo oscuro -->
+    <circle cx="256" cy="256" r="244" fill="#f7fafc" />
+
+    <!-- Silueta Principal de las Cumbres (Páramo) -->
+    <path
+        d="M66 308 L208 66 C220 46 244 46 256 66 L328 190 L358 158 C370 144 392 146 402 162 L448 288 C360 326 185 330 66 308 Z"
+        fill="url(#santurbioMtn)"
+    />
+
+    <!-- Faceta de luz glaciar en la cumbre principal -->
+    <path
+        d="M232 76 L150 218 C186 214 214 190 236 156 L265 184 L292 152 L242 74 C238 69 235 71 232 76 Z"
+        fill="#d8f1fa"
+        opacity="0.88"
+    />
+
+    <!-- Hojas Blancas de Biodiversidad (Lado derecho) -->
+    <!-- Hoja izquierda pequeña -->
+    <path
+        d="M298 292 C264 286 252 252 258 228 C284 234 306 256 298 292 Z"
+        fill="#ffffff"
+    />
+    <path
+        d="M270 248 Q284 268 295 288"
+        stroke="#279b82"
+        stroke-width="6"
+        stroke-linecap="round"
+        fill="none"
+    />
+
+    <!-- Hoja derecha principal -->
+    <path
+        d="M322 298 C316 250 350 214 398 208 C398 256 368 294 322 298 Z"
+        fill="#ffffff"
+    />
+    <path
+        d="M376 228 Q350 258 326 292"
+        stroke="#4ea865"
+        stroke-width="7"
+        stroke-linecap="round"
+        fill="none"
+    />
+
+    <!-- Ondas de Agua Naciente (Base del Logo) -->
+    <!-- Onda Superior -->
+    <path
+        d="M52 336 C135 280 235 304 322 332 C382 350 428 338 456 304 C444 364 384 396 296 382 C208 368 128 318 52 336 Z"
+        fill="url(#santurbioWave1)"
+    />
+
+    <!-- Onda Media -->
+    <path
+        d="M84 364 C162 338 242 384 334 394 C390 400 426 378 446 350 C422 414 352 442 268 426 C192 412 138 368 84 364 Z"
+        fill="url(#santurbioWave2)"
+    />
+
+    <!-- Onda Inferior -->
+    <path
+        d="M116 396 C185 418 256 446 346 432 C310 468 230 474 166 442 C142 430 126 414 116 396 Z"
+        fill="#0b538d"
+    />
+</svg>
