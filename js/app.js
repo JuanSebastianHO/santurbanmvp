@@ -1,7 +1,7 @@
 /**
  * @file js/app.js
  * @description Bootstrapper principal y coordinador MVVM de la aplicación
- * Monitoreo de Biodiversidad en el Páramo de Santurbán.
+ * SanturBio — Monitoreo de Biodiversidad en el Páramo de Santurbán.
  */
 
 import { ENV } from './config/env.js';
@@ -96,7 +96,7 @@ class SanturbanApp {
 
             this._renderUserHeader(profile);
 
-            // Al abrir sesión con conexión activa, sincronizar registros pendientes automáticamente (Requisito #8)
+            // Al abrir sesión con conexión activa, sincronizar registros pendientes automáticamente
             if (networkMonitor.isOnline) {
                 syncService.syncPendingQueue({ source: 'app_open' });
             }
@@ -121,7 +121,7 @@ class SanturbanApp {
                     body: `Coordenadas (${Number(finding.latitude).toFixed(4)}, ${Number(
                         finding.longitude
                     ).toFixed(4)}). ${finding.description || ''}`,
-                    tag: `degradacion-${finding.id}` // Evita notificaciones duplicadas en el SO
+                    tag: `degradacion-${finding.id}`
                 });
             }
         });
@@ -184,9 +184,6 @@ class SanturbanApp {
 
     /**
      * Monta la vista de Guardabosque o el Dashboard de Administrador.
-     * La autorización real está garantizada en Supabase mediante RLS; además,
-     * en cliente no se permite montar el Dashboard si el rol no es 'admin'.
-     *
      * @param {'field'|'admin'} mode
      */
     async _mountAuthenticatedWorkspace(mode) {
@@ -216,9 +213,9 @@ class SanturbanApp {
     }
 
     /**
-     * Registra el Service Worker para soporte Offline de la PWA y escucha el evento de instalación.
+     * Registra el Service Worker de inmediato (sin esperar al evento 'load' que ya pudo haber ocurrido).
      */
-    _registerServiceWorkerAndPWA() {
+    async _registerServiceWorkerAndPWA() {
         if (typeof window === 'undefined') return;
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -229,27 +226,27 @@ class SanturbanApp {
             }
         });
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', async () => {
-                try {
-                    const registration = await navigator.serviceWorker.register('./service-worker.js');
-                    registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        if (newWorker) {
-                            newWorker.addEventListener('statechange', () => {
-                                if (
-                                    newWorker.state === 'installed' &&
-                                    navigator.serviceWorker.controller
-                                ) {
-                                    console.info('[PWA] Nueva versión del Service Worker lista.');
-                                }
-                            });
-                        }
-                    });
-                } catch (err) {
-                    console.warn('[PWA] Registro de Service Worker omitido o fallido:', err.message);
-                }
-            });
+        if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
+            try {
+                const registration = await navigator.serviceWorker.register('./service-worker.js', {
+                    scope: './'
+                });
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            if (
+                                newWorker.state === 'installed' &&
+                                navigator.serviceWorker.controller
+                            ) {
+                                console.info('[PWA] Nueva versión del Service Worker lista.');
+                            }
+                        });
+                    }
+                });
+            } catch (err) {
+                console.warn('[PWA] Registro de Service Worker omitido o fallido:', err.message);
+            }
         }
     }
 }
