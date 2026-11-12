@@ -82,6 +82,20 @@
     <!-- Contenedor para Modales (Corrección Auditada de Metadatos / Detalles) -->
     <div id="modal-root" class="hidden" aria-live="polite"></div>
 
+    <!-- Registro Inmediato del Service Worker (Sin depender de window.onload) -->
+    <script>
+        if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
+            navigator.serviceWorker
+                .register('./service-worker.js', { scope: './' })
+                .then(function (reg) {
+                    console.log('[PWA] Service Worker registrado exitosamente con scope:', reg.scope);
+                })
+                .catch(function (err) {
+                    console.error('[PWA] Error registrando Service Worker:', err);
+                });
+        }
+    </script>
+
     <!-- Bibliotecas Geográficas: Leaflet.js + Leaflet.heat -->
     <script
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
